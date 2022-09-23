@@ -1,5 +1,10 @@
 .chart{
-  /* background-color: red; */
-  
+  fill: #a1dada;
 
+}
+
+.bar-name{
+  display: block;
+  width: 100px;
+  height: 100px;
 }

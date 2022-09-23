@@ -20,30 +20,43 @@ const Bar = ({ x, y, height, width }) => {
 
 
 const BarChart = ({}) =>{
-  const barWidth = 20
+  const barHeight = 30
   const barMargin = 0
-  const height = data.length* (barWidth + barMargin)
-const greatestValue = (values) =>
-  values.reduce((acc, cur) => (cur > acc ? cur : acc), -Infinity);
-const width = greatestValue(data.map((datum) => datum.time));
+  const height = data.length* (barHeight + barMargin)
+  const totalTime = data.reduce((acc, element) => (acc+=element.time), 0);
+  const width = window.innerWidth;
 
+        let preBarWidth = 0;
 return (
   <Chart height={height} width={width}>
-    {data.map((datum, index) => (
-      <Bar
-        key={datum.name}
-        y={index * (barWidth + barMargin)}
-        x={0}
-        width={datum.time}
-        height={barWidth}
-      />
-    ))}
+    {data.map((datum, index) => {
+
+      if (index > 0){
+
+      preBarWidth += width / totalTime * data[index - 1].time;
+      }
+      return (
+        <>
+          <Bar
+            key={datum.name}
+            y={index * (barHeight + barMargin)}
+            x={preBarWidth}
+            width={(width / totalTime) * datum.time}
+            height={barHeight}
+          />
+        </>
+      );})}
   </Chart>
 );
  }
 const App: React.FC = () => {
   // const [chartValues, setChartvalues] = useState([])
-  return <BarChart />;
+  return (
+    <>
+      <h1>SPENT TIME (SECONDS)</h1>
+      <BarChart />
+    </>
+  );
 };
 
 export default App;
