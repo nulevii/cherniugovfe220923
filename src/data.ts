@@ -1,7 +1,7 @@
 
 import { DataInterface } from './data-interface'
 
-export const data: DataInterface[] = [
+export const CHART_DATA: DataInterface[] = [
   { name: 'Landing Page', time: 7.4 },
   { name: 'Configurator', time: 0.2 },
   { name: 'Check-out', time: 7.0 },

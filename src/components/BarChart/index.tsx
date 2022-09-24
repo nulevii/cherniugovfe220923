@@ -1,49 +1,38 @@
-// @ts-nocheck
 import React, { useEffect, useState } from 'react'
-import { data } from '../../data'
+import { CHART_DATA } from '../../data'
 import Bar from './Bar'
 import Chart from './Chart'
-import { DataInterface } from '../../data-interface'
+import { generateNewData } from '../../utilities/generateNewData'
+import { resizeChart } from '../../utilities/resizeChart'
 
 const BarChart: React.FC = () => {
   const [windowWidth, setWindowWidth] = useState(0)
-  const [chartValues, setChartValues] = useState(data)
-
-  const resizeChart = (): void => {
-    if (window.innerWidth > 2880) {
-      setWindowWidth(2880 - 20)
-    }
-    setWindowWidth(window.innerWidth - 20)
-  }
-
-  const generateNewData: DataInterface = (DataArray) => {
-    const newData = DataArray.map(dataElement => {
-      const randomNumber = (Math.floor(Math.random() * 100) + 1) / 10
-      const newDataElement = { ...dataElement, time: randomNumber }
-      return newDataElement
-    })
-
-    setChartValues(newData)
-  }
+  const [chartValues, setChartValues] = useState(CHART_DATA)
 
   useEffect(() => {
-    resizeChart()
-    window.addEventListener('resize', resizeChart)
+    setWindowWidth(resizeChart())
+    window.addEventListener('resize', () => {
+      setWindowWidth(resizeChart())
+    })
 
     const intervalId = setInterval(() => {
-      generateNewData(data)
+      setChartValues(generateNewData(CHART_DATA))
     }, 31800)
     return () => {
-      window.removeEventListener('resize', resizeChart)
+      window.removeEventListener('resize', () => {
+        setWindowWidth(resizeChart())
+      })
       clearInterval(intervalId)
     }
   }, [])
+
   const barHeight = 30
   const barMargin = 15
   const height = chartValues.length * (barHeight + barMargin)
-  const totalTime = chartValues.reduce((acc, element) => (acc += element.time), 0)
+  const totalTime = chartValues.reduce((acc: number, element) => (acc += element.time), 0)
 
   let previousBarWidth = 0
+
   return (
     <>
       <Chart height={height} width={windowWidth}>
@@ -51,28 +40,35 @@ const BarChart: React.FC = () => {
           if (index > 0) {
             previousBarWidth +=
               ((windowWidth - 120) / totalTime) * chartValues[index - 1].time
+            if (previousBarWidth <= 0) {
+              previousBarWidth = 0
+            }
+          }
+          let width = ((windowWidth - 120) / totalTime) * datum.time
+          if (width <= 0) {
+            width = 0
           }
           return (
-            <>
-              <Bar
-                key={datum.name}
-                y={index * (barHeight + barMargin)}
-                x={previousBarWidth + 120}
-                width={((windowWidth - 120) / totalTime) * datum.time}
-                height={barHeight}
-                data={datum}
-                fullWidth={windowWidth}
-              />
-            </>
+            <Bar
+              key={datum.name}
+              y={index * (barHeight + barMargin)}
+              x={previousBarWidth + 120}
+              width={width}
+              height={barHeight}
+              data={datum}
+              fullWidth={windowWidth}
+            />
           )
         })}
       </Chart>
       <button
-      onClick={ () => {
-        generateNewData(data)
-      }}
-      className='update-button'
-       type='button'>
+        onClick={() => {
+          setChartValues(generateNewData(CHART_DATA))
+        }}
+        className="update-button"
+        type="button"
+        data-testid="update-button"
+      >
         Update data
       </button>
     </>

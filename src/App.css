@@ -4,7 +4,7 @@ body {
 
 .chart-section{
   max-width: 2880px;
-  padding: 0 10px;
+  margin: 0 15px;
   display: flex;
   flex-direction: column;
 }

@@ -10,23 +10,31 @@ interface BarProps {
 
 }
 const Bar: React.FC<BarProps> = ({ x, y, height, width, data, fullWidth }) => {
+  const sideBarOneWidth = x - 120 < 0 ? 0 : x - 120
+  const sideBarOneY = y + height / 2 + 5
+  const sideBarOneX = 120
+  const sideBarTwoWidth = fullWidth - width - x < 0 ? 0 : fullWidth - width - x
+  const sideBarTwoY = y + height / 2 + 4
+
+  const nameLabelX = 100
+  const valueLabelX = x + width / 2
   return (
     <>
       <g className="bar-group">
         <text
           className="name-label"
-          x="100"
-          y={y + height / 2 + 5}
+          x={nameLabelX}
+          y={sideBarOneY}
           alignmentBaseline="middle"
         >
           {data.name}
         </text>
         <rect
           className="side-bar"
-          x={120}
+          x={sideBarOneX}
           y={y}
           height={height}
-          width={x - 120}
+          width={sideBarOneWidth}
         />
         ;
         <rect className="main-bar" x={x} y={y} height={height} width={width} />;
@@ -35,15 +43,15 @@ const Bar: React.FC<BarProps> = ({ x, y, height, width, data, fullWidth }) => {
           x={x + width}
           y={y}
           height={height}
-          width={fullWidth - width - x}
+          width={sideBarTwoWidth}
         />
         ;
         <text
           width={width}
           height={height}
           className="value-label"
-          x={x + width / 2}
-          y={y + height / 2 + 4}
+          x={valueLabelX}
+          y={sideBarTwoY}
         >
           {data.time}
         </text>
