@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/cherniugovfe220923/static/css/main.e0ba312e.css",
+    "main.js": "/cherniugovfe220923/static/js/main.37468b6f.js",
+    "index.html": "/cherniugovfe220923/index.html",
+    "main.e0ba312e.css.map": "/cherniugovfe220923/static/css/main.e0ba312e.css.map",
+    "main.37468b6f.js.map": "/cherniugovfe220923/static/js/main.37468b6f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e0ba312e.css",
+    "static/js/main.37468b6f.js"
+  ]
+}
