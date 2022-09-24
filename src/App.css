@@ -1,23 +1,21 @@
-.chart{
-  fill: #a1dada;}
-
-
-
 body {
   font-family: "Roboto", sans-serif;
-  font-size: 16px;
 }
 
 .chart-section{
   max-width: 2880px;
   padding: 0 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 .chart-sign {
   color: #5c5c5c;
 }
+.chart{
+  fill: #a1dada;}
 
-.bar-group .name-label {
+.name-label {
   text-anchor: end;
   /* font-weight: 300; */
   font-size: 16px;
@@ -28,9 +26,31 @@ body {
     fill: #f5f5f5;
 }
 
-.bar-group .value-label {
+.side-bar,.main-bar{
+  transition: all 0.3s
+}
+
+.value-label {
   text-anchor: middle;
   fill: #5c5c5c;
   font-size: 16px;
 }
 
+.update-button{
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  width: 350px;
+  height: 40px;
+  margin: auto;
+  border-radius: 8px;
+  border:1px solid #5c5c5c;
+  background-color: #f5f5f5;
+  color: #5c5c5c;
+  transition: color 0.3s, background-color 0.3s;
+}
+
+.update-button:hover{
+  background-color: #5c5c5c;
+  color: #f5f5f5;
+
+}
